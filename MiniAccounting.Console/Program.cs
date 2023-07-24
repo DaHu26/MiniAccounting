@@ -11,49 +11,71 @@ namespace MiniAccountingConsole
     {
         static void Main(string[] args)
         {
-            var wallet = 0;
-            int pocket1 = 0;
-            int pocket2 = 0;
-            Console.WriteLine("Введите имя первого пользователя.");
-            var userName1 = Console.ReadLine();
-            Console.WriteLine($"Ваше имя: {userName1}, это верно? 1 - Да 2 - Нет.");
+            int wallet = 0;
+            var user = new User("None", 0);
+            var users = new List<User>();
+            Console.WriteLine("1 - Добавить акк 2 - Убрать");
             var choose = Convert.ToInt32(Console.ReadLine());
-
-            while (choose == 2)
+            switch (choose)
             {
-                Console.WriteLine("Введите имя повторно.");
-                userName1 = Console.ReadLine();
-                Console.WriteLine($"Ваше имя: {userName1}, это верно? 1 - Да 2 - Нет.");
-                choose = Convert.ToInt32(Console.ReadLine());
+                case 1:
+                    Console.WriteLine("Введите имя нового аккаунта");
+                    var chooseName = Console.ReadLine();
+                    Console.WriteLine($"Ваше имя: {chooseName}, это верно? 1 - Да 2 - Нет.");
+                    var choose1 = Convert.ToInt32(Console.ReadLine());
+
+                    while (choose1 != 1)
+                    {
+                        Console.WriteLine("Введите имя повторно.");
+                        chooseName = Console.ReadLine();
+                        Console.WriteLine($"Ваше имя: {chooseName}, это верно? 1 - Да 2 - Нет.");
+                        choose1 = Convert.ToInt32(Console.ReadLine());
+                    }
+
+                    Console.WriteLine("Введите начальное количество денег на счету у этого аккаунта.");
+                    var chooseWallet = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine($"Количество денег: {chooseWallet}, это верно? 1 - Да 2 - Нет.");
+                    choose1 = Convert.ToInt32(Console.ReadLine());
+
+                    while (choose1 != 1)
+                    {
+                        Console.WriteLine("Введите количество денег повторно.");
+                        chooseName = Console.ReadLine();
+                        Console.WriteLine($"Количество денег: {chooseWallet}, это верно? 1 - Да 2 - Нет.");
+                        choose1 = Convert.ToInt32(Console.ReadLine());
+                    }
+
+                    var newUser = new User(chooseName, chooseWallet);
+                    users.Add(newUser);
+
+                    break;
+                case 2:
+                    Console.WriteLine("Выберите юзера для удаления.");
+                    for (int i = 0; i < users.Count; i++)
+                    {
+                        Console.WriteLine($"{i + 1} - {users[i]}");
+                    }
+                    choose1 = Convert.ToInt32(Console.ReadLine());
+                    users.RemoveAt(choose1 - 1);
+                    for (int i = 0; i < users.Count; i++)
+                    {
+                        Console.WriteLine($"{i + 1} - {users[i]}");
+                    }
+                    break;
             }
-
-            Console.WriteLine("Введите имя второго пользователя.");
-            var userName2 = Console.ReadLine();
-            Console.WriteLine($"Ваше имя: {userName2}, это верно? 1 - Да 2 - Нет.");
-            choose = Convert.ToInt32(Console.ReadLine());
-
-            while (choose == 2)
-            {
-                Console.WriteLine("Введите имя повторно.");
-                userName2 = Console.ReadLine();
-                Console.WriteLine($"Ваше имя: {userName2}, это верно? 1 - Да 2 - Нет.");
-                choose = Convert.ToInt32(Console.ReadLine());
-            }
-
             bool onOff = true;
             while (onOff)
             {
                 Console.WriteLine("Выберите необходимую вам операцию:");
-                Console.WriteLine($"1 - Операции {userName1}.");
-                Console.WriteLine($"2 - Операции {userName2}.");
-                Console.WriteLine($"3 - Пополнить общий баланс.");
-                Console.WriteLine($"4 - Снять с общего баланс.");
-                Console.WriteLine($"5 - Проверить общий баланс.");
-                Console.WriteLine($"6 - Завершить работу.");
+                Console.WriteLine($"1 - Операции с личным аккаунтом.");
+                Console.WriteLine($"2 - Пополнить общий баланс.");
+                Console.WriteLine($"3 - Снять с общего баланс.");
+                Console.WriteLine($"4 - Проверить общий баланс.");
+                Console.WriteLine($"5 - Завершить работу.");
 
                 choose = Convert.ToInt32(Console.ReadLine());
 
-                while (choose < 1 || choose > 6)
+                while (choose < 1 || choose > 5)
                 {
                     Console.WriteLine("Выбрана неизвестная операция, повторите ввод.");
                     choose = Convert.ToInt32(Console.ReadLine());
@@ -64,71 +86,32 @@ namespace MiniAccountingConsole
                 switch (choose)
                 {
                     case 1:
-                        Console.WriteLine($"Вы выбрали операции {userName1}.");
-                        Console.WriteLine($"Ваш баланс - {pocket1}");
-                        Console.WriteLine("Вы желаете 1 - Пополнить баланс 2 - Снять со счета.");
-                        var choose2 = Convert.ToInt32(Console.ReadLine());
-                        switch (choose2)
+                        Console.WriteLine($"Вы выбрали операции с личным аккаунтом.");
+                        Console.WriteLine("Выберите аккаунт для взаимодействия.");
+                        for (int i = 0; i < users.Count; i++)
+                        {
+                            var currentUser = users[i];
+                            Console.WriteLine($"{i + 1} - {currentUser.Name} {currentUser.Wallet}");
+                        }
+                        var choose1 = Convert.ToInt32(Console.ReadLine());
+
+                        switch (choose1)
                         {
                             case 1:
-                                Console.WriteLine("Введите сумму для пополнения.");
-                                var addPocket1 = Convert.ToInt32(Console.ReadLine());
-                                pocket1 = addPocket1 + pocket1;
-                                Console.WriteLine($"Ваш текущий баланс: {pocket1}");
+                                Console.WriteLine($"Вы выбрали аккаунт - {users[choose1 - 1]}");
+
                                 break;
                             case 2:
-                                Console.WriteLine("Введите сумму для снятия.");
-                                var takeOffPocket1 = Convert.ToInt32(Console.ReadLine());
-                                var percentPayToWebsite1 = takeOffPocket1 / 100 * 3;
+                                Console.WriteLine($"Вы выбрали аккаунт - {users[choose1 - 1]}");
 
-                                while (pocket1 < takeOffPocket1 + percentPayToWebsite1)
-                                {
-                                    Console.WriteLine("Недостаточно средств для выполения действия.");
-                                    Console.WriteLine($"Ваш баланс: {pocket1}");
-                                    Console.WriteLine("Выберите сумму для снятия.");
-                                    takeOffPocket1 = Convert.ToInt32(Console.ReadLine());
-                                    percentPayToWebsite1 = takeOffPocket1 / 100 * 3;
-                                }
+                                break;
+                            case 3:
+                                Console.WriteLine($"Вы выбрали аккаунт - {users[choose1 - 1]}");
 
-                                pocket1 = pocket1 - (takeOffPocket1 + percentPayToWebsite1);
-                                Console.WriteLine($"Ваш текущий баланс: {pocket1}");
                                 break;
                         }
                         break;
-
                     case 2:
-                        Console.WriteLine($"Вы выбрали операции {userName2}.");
-                        Console.WriteLine($"Ваш баланс - {pocket2}");
-                        Console.WriteLine("Вы желаете 1 - Пополнить баланс 2 - Снять со счета.");
-                        choose2 = Convert.ToInt32(Console.ReadLine());
-                        switch (choose2)
-                        {
-                            case 1:
-                                Console.WriteLine("Введите сумму для пополнения.");
-                                var addPocket2 = Convert.ToInt32(Console.ReadLine());
-                                pocket2 = addPocket2 + pocket2;
-                                Console.WriteLine($"Ваш текущий баланс: {pocket2}");
-                                break;
-                            case 2:
-                                Console.WriteLine("Введите сумму для снятия.");
-                                var takeOffPocket2 = Convert.ToInt32(Console.ReadLine());
-                                var percentPayToWebsite2 = takeOffPocket2 / 100 * 3;
-
-                                while (pocket2 < takeOffPocket2 + percentPayToWebsite2)
-                                {
-                                    Console.WriteLine("Недостаточно средств для выполения действия.");
-                                    Console.WriteLine($"Ваш баланс: {pocket2}");
-                                    Console.WriteLine("Выберите сумму для снятия.");
-                                    takeOffPocket2 = Convert.ToInt32(Console.ReadLine());
-                                    percentPayToWebsite2 = takeOffPocket2 / 100 * 3;
-                                }
-
-                                pocket2 = pocket2 - (takeOffPocket2 + percentPayToWebsite2);
-                                Console.WriteLine($"Ваш текущий баланс: {pocket2}");
-                                break;
-                        }
-                        break;
-                    case 3:
                         Console.WriteLine("Вы выбрали операцию пополнения общего баланса.");
                         Console.WriteLine($"Ваш текущий баланс: {wallet}");
                         Console.WriteLine("Введите сумму для пополнения.");
@@ -136,7 +119,7 @@ namespace MiniAccountingConsole
                         wallet = wallet + addWallet;
                         Console.WriteLine($"Ваш текущий баланс: {wallet}");
                         break;
-                    case 4:
+                    case 3:
                         Console.WriteLine("Вы выбрали операцию снятия с общего баланса.");
                         Console.WriteLine($"Ваше текущий баланс: {wallet}");
                         Console.WriteLine("Введите сумму для снятия.");
@@ -144,10 +127,10 @@ namespace MiniAccountingConsole
                         wallet = wallet - takeOffWallet;
                         Console.WriteLine($"Ваше текущий баланс: {wallet}");
                         break;
-                    case 5:
+                    case 4:
                         Console.WriteLine($"Ваш текущий баланс: {wallet}");
                         break;
-                    case 6:
+                    case 5:
                         Console.WriteLine("Пока.");
                         onOff = false;
                         break;
@@ -157,3 +140,4 @@ namespace MiniAccountingConsole
         }
     }
 }
+
