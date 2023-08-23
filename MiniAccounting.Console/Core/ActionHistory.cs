@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 namespace MiniAccountingConsole.Core
 {
-    internal class ActionHistory
+    public class ActionHistory
     {
         public DateTimeOffset DateTimeOffset { get; set; }
         public TypeOperation TypeOperation { get; set; }

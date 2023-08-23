@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MiniAccountingConsole.Core
 {
-    internal class User
+    public class User
     {
         public Guid Uid { get; set; }
         public string Name { get; private set; }

@@ -12,20 +12,25 @@ namespace MiniAccountingConsole
 {
     internal class MainMenu
     {
-        public void Start()
+        private Operator _operator;
+
+        public MainMenu()
         {
-            var users = new List<User>();
-            users.Add(new User("Dan", 0));
-            users.Add(new User("Val", 0));
-            users.Add(new User("Sne", 0));
-            SayHi();
-            RegisterOrDeleteUsers(users);
-            StartMenu(users);
+            _operator = new Operator();
         }
 
-        private static void StartMenu(List<User> users)
+        public void Start()
         {
-            var totalMoney = 0;
+            _operator.Users.Add(new User("Dan", 0));
+            _operator.Users.Add(new User("Val", 0));
+            _operator.Users.Add(new User("Sne", 0));
+            SayHi();
+            RegisterOrDeleteUsers(_operator.Users);
+            StartMenu(_operator.Users);
+        }
+
+        private void StartMenu(List<User> users)
+        {
             var onOff = true;
             while (onOff)
             {
@@ -43,13 +48,13 @@ namespace MiniAccountingConsole
                         OperationsWithPersonalAccount(users);
                         break;
                     case 2:
-                        TopUpTotalBalance(totalMoney);
+                        TopUpTotalBalance();
                         break;
                     case 3:
-                        RemoveFromTotalBalance(totalMoney);
+                        RemoveFromTotalBalance();
                         break;
                     case 4:
-                        Console.WriteLine($"Ваш текущий баланс: {totalMoney}");
+                        Console.WriteLine($"Ваш текущий баланс: {_operator.TotalMoney}");
                         break;
                     case 5:
                         Console.WriteLine("Пока.");
@@ -60,8 +65,8 @@ namespace MiniAccountingConsole
             }
         }
 
-        private static void RegisterOrDeleteUsers(List<User> users)
-        { 
+        private void RegisterOrDeleteUsers(List<User> users)
+        {
             Console.WriteLine("1 - Добавить пользователя 2 - Убрать пользователя");
             var choose = Convert.ToInt32(Console.ReadLine());
 
@@ -83,7 +88,7 @@ namespace MiniAccountingConsole
             }
         }
 
-        private static string ReadAndValidateString()
+        private string ReadAndValidateString()
         {
             var str = Console.ReadLine();
             Console.WriteLine($"Вы написали: {str}, это верно? 1 - Да 2 - Нет.");
@@ -98,13 +103,13 @@ namespace MiniAccountingConsole
             return str;
         }
 
-        private static void SayHi()
+        private void SayHi()
         {
             Console.WriteLine("Вас приведствует программа \"Mini Accounting\"");
             Console.WriteLine("Здесь вы можете вести учет потраченных и заработанных средств.");
         }
 
-        private static void OperationsWithPersonalAccount(List<User> users)
+        private void OperationsWithPersonalAccount(List<User> users)
         {
             Console.WriteLine($"Вы выбрали операции с личным аккаунтом.");
             Console.WriteLine("Выберите аккаунт для взаимодействия.");
@@ -132,27 +137,31 @@ namespace MiniAccountingConsole
             }
         }
 
-        private static void TopUpTotalBalance(int totalMoney)
+        private void TopUpTotalBalance()
         {
             Console.WriteLine("Вы выбрали операцию пополнения общего баланса.");
-            Console.WriteLine($"Ваш текущий баланс: {totalMoney}");
+            Console.WriteLine($"Ваш текущий баланс: {_operator.TotalMoney}");
             Console.WriteLine("Введите сумму для пополнения.");
             var addMoney = Convert.ToInt32(Console.ReadLine());
-            totalMoney = totalMoney + addMoney;
-            Console.WriteLine($"Ваш текущий баланс: {totalMoney}");
+            Console.WriteLine("Введите комментариий.");
+            var comment = Console.ReadLine();
+            _operator.TopUpTotalBalance(addMoney, comment);
+            Console.WriteLine($"Ваш текущий баланс: {_operator.TotalMoney}");
         }
 
-        private static void RemoveFromTotalBalance(int totalMoney)
+        private void RemoveFromTotalBalance()
         {
             Console.WriteLine("Вы выбрали операцию снятия с общего баланса.");
-            Console.WriteLine($"Ваше текущий баланс: {totalMoney}");
+            Console.WriteLine($"Ваше текущий баланс: {_operator.TotalMoney}");
             Console.WriteLine("Введите сумму для снятия.");
             var takeOffMoney = Convert.ToInt32(Console.ReadLine());
-            totalMoney = totalMoney - takeOffMoney;
-            Console.WriteLine($"Ваше текущий баланс: {totalMoney}");
+            Console.WriteLine("Введите комментарий.");
+            var comment = Console.ReadLine();
+            _operator.RemoveFromTotalBalance(takeOffMoney, comment);
+            Console.WriteLine($"Ваше текущий баланс: {_operator.TotalMoney}");
         }
 
-        private static int ChooseOperation()
+        private int ChooseOperation()
         {
             Console.WriteLine("Выберите необходимую вам операцию:");
             Console.WriteLine($"1 - Операции с личным аккаунтом.");
@@ -163,7 +172,7 @@ namespace MiniAccountingConsole
             return Convert.ToInt32(Console.ReadLine());
         }
 
-        private static void AddUser(List<User> users)
+        private void AddUser(List<User> users)
         {
             Console.WriteLine("Введите имя нового аккаунта");
             var chooseName = ReadAndValidateString();
@@ -185,7 +194,7 @@ namespace MiniAccountingConsole
             users.Add(newUser);
         }
 
-        private static void DeleteUser(List<User> users)
+        private void DeleteUser(List<User> users)
         {
             Console.WriteLine("Выберите юзера для удаления.");
             for (int i = 0; i < users.Count; i++)
@@ -199,34 +208,5 @@ namespace MiniAccountingConsole
                 Console.WriteLine($"{i + 1} - {users[i]}");
             }
         }
-
-
-        //private static double ReadAndValidateInt()
-        //{
-        //    string str = ReadDouble();
-        //    Console.WriteLine($"Вы написали: {str}, это верно? 1 - Да 2 - Нет.");
-        //    var choose = Convert.ToInt32(Console.ReadLine());
-        //    while (choose != 1)
-        //    {
-        //        Console.WriteLine("Введите повторно.");
-        //        str = Console.ReadLine();
-        //        Console.WriteLine($"Вы написали: {str}, это верно? 1 - Да 2 - Нет.");
-        //        choose = Convert.ToInt32(Console.ReadLine());
-        //    }
-
-        //    return str;
-        //}
-
-        //private static double ReadDouble()
-        //{
-        //    var str = Console.ReadLine();
-        //    while (!double.TryParse(str, out var result))
-        //    {
-        //        Console.WriteLine("Формат значения не верен, попробуйте снова.");
-        //        str = Console.ReadLine();
-        //    }
-
-        //    return result;
-        //}
     }
 }

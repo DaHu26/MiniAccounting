@@ -6,11 +6,33 @@ using System.Threading.Tasks;
 
 namespace MiniAccountingConsole.Core
 {
-    internal class Operator
+    public class Operator
     {
-        public double TopUpTotalBalance(double totalMoney)
+        public double TotalMoney { get; private set; }
+        public List<User> Users { get; private set; }
+
+        private IReadWriteHistoryOperations _readWriteHistoryOperations;
+
+        public Operator()
         {
-            return 0;
+            Users = new List<User>();
+            _readWriteHistoryOperations = new ReadWriteHistoryOperationsFile();
+        }
+
+        public double TopUpTotalBalance(double addMoney, string comment)
+        {
+            var operationInfo = new ActionHistory(DateTimeOffset.UtcNow, TypeOperation.TopUp, comment, Guid.Empty, Guid.Empty);
+            _readWriteHistoryOperations.WriteOperation(operationInfo);
+
+            return TotalMoney += addMoney;
+        }
+
+        public double RemoveFromTotalBalance(double removeMoney, string comment)
+        {
+            var operationInfo = new ActionHistory(DateTimeOffset.UtcNow, TypeOperation.Remove, comment, Guid.Empty, Guid.Empty);
+            _readWriteHistoryOperations.WriteOperation(operationInfo);
+
+            return TotalMoney -= removeMoney;
         }
     }
 }
