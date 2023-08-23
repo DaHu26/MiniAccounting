@@ -11,26 +11,26 @@ namespace MiniAccountingConsole.Core
         public double TotalMoney { get; private set; }
         public List<User> Users { get; private set; }
 
-        private IReadWriteHistoryOperations _readWriteHistoryOperations;
+        private IReadWriteHistoryOfTransactions _readWriteHistoryOfTransactions;
 
         public Operator()
         {
             Users = new List<User>();
-            _readWriteHistoryOperations = new ReadWriteHistoryOperationsFile();
+            _readWriteHistoryOfTransactions = new ReadWriteHistoryOfTransactionsFromFile();
         }
 
         public double TopUpTotalBalance(double addMoney, string comment)
         {
-            var operationInfo = new TransactionInfo(DateTimeOffset.UtcNow, TypeOperation.TopUp, comment, Guid.Empty, Guid.Empty);
-            _readWriteHistoryOperations.WriteOperation(operationInfo);
+            var operationInfo = new TransactionInfo(DateTimeOffset.UtcNow, TypeOfTransaction.TopUp, comment, Guid.Empty, Guid.Empty);
+            _readWriteHistoryOfTransactions.WriteTransaction(operationInfo);
 
             return TotalMoney += addMoney;
         }
 
         public double RemoveFromTotalBalance(double removeMoney, string comment)
         {
-            var operationInfo = new TransactionInfo(DateTimeOffset.UtcNow, TypeOperation.Remove, comment, Guid.Empty, Guid.Empty);
-            _readWriteHistoryOperations.WriteOperation(operationInfo);
+            var operationInfo = new TransactionInfo(DateTimeOffset.UtcNow, TypeOfTransaction.Remove, comment, Guid.Empty, Guid.Empty);
+            _readWriteHistoryOfTransactions.WriteTransaction(operationInfo);
 
             return TotalMoney -= removeMoney;
         }

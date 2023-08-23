@@ -1,6 +1,6 @@
 ﻿namespace MiniAccountingConsole.Core
 {
-    public enum TypeOperation
+    public enum TypeOfTransaction
     {
         None = 0,
         TopUp = 1,

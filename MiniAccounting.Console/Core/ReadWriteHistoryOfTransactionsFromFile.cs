@@ -5,12 +5,12 @@ using System.Text;
 
 namespace MiniAccountingConsole.Core
 {
-    public class ReadWriteHistoryOperationsFile : IReadWriteHistoryOperations
+    public class ReadWriteHistoryOfTransactionsFromFile : IReadWriteHistoryOfTransactions
     {
         private const string PATH_TO_FILE = "historyOperations.json";
         private static readonly Encoding _encoding = Encoding.UTF8;
 
-        public List<TransactionInfo> ReadOperations()
+        public List<TransactionInfo> ReadTransactions()
         {
             if (!File.Exists(PATH_TO_FILE))
                 return new List<TransactionInfo>();
@@ -25,9 +25,9 @@ namespace MiniAccountingConsole.Core
             }
         }
 
-        public void WriteOperation(TransactionInfo transactionInfo)
+        public void WriteTransaction(TransactionInfo transactionInfo)
         {
-            var newList = ReadOperations();
+            var newList = ReadTransactions();
 
             using (var writer = new StreamWriter(PATH_TO_FILE, false))
             {
