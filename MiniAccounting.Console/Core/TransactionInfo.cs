@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 namespace MiniAccountingConsole.Core
 {
-    public class ActionHistory
+    public class TransactionInfo
     {
         public DateTimeOffset DateTimeOffset { get; set; }
         public TypeOperation TypeOperation { get; set; }
@@ -15,7 +15,7 @@ namespace MiniAccountingConsole.Core
         public Guid UserUid { get; set; }
         public Guid DestinationUserUid { get; set; }
 
-        public ActionHistory(DateTimeOffset dateTimeOffset, TypeOperation typeOperation, string comment, Guid userUid, Guid destinationUserUid)
+        public TransactionInfo(DateTimeOffset dateTimeOffset, TypeOperation typeOperation, string comment, Guid userUid, Guid destinationUserUid)
         {
             DateTimeOffset = dateTimeOffset;
             TypeOperation = typeOperation;

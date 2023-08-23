@@ -10,13 +10,13 @@ namespace MiniAccountingConsole.Core
         /// <summary>
         /// Сохранение транзакции.
         /// </summary>
-        /// <param name="actionHistory">Транзакция которую сохраняем.</param>
-        void WriteOperation(ActionHistory actionHistory);
+        /// <param name="transactionInfo">Транзакция которую сохраняем.</param>
+        void WriteOperation(TransactionInfo transactionInfo);
 
         /// <summary>
         /// Считываем историю транзакций.
         /// </summary>
         /// <returns>История транзакций. Если истории нет, то вернется пустой список.</returns>
-        List<ActionHistory> ReadOperations();
+        List<TransactionInfo> ReadOperations();
     }
 }

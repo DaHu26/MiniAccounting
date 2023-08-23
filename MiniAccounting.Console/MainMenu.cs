@@ -25,11 +25,11 @@ namespace MiniAccountingConsole
             _operator.Users.Add(new User("Val", 0));
             _operator.Users.Add(new User("Sne", 0));
             SayHi();
-            RegisterOrDeleteUsers(_operator.Users);
-            StartMenu(_operator.Users);
+            RegisterOrDeleteUsers();
+            StartMenu();
         }
 
-        private void StartMenu(List<User> users)
+        private void StartMenu()
         {
             var onOff = true;
             while (onOff)
@@ -45,7 +45,7 @@ namespace MiniAccountingConsole
                 switch (choose)
                 {
                     case 1:
-                        OperationsWithPersonalAccount(users);
+                        OperationsWithPersonalAccount();
                         break;
                     case 2:
                         TopUpTotalBalance();
@@ -65,7 +65,7 @@ namespace MiniAccountingConsole
             }
         }
 
-        private void RegisterOrDeleteUsers(List<User> users)
+        private void RegisterOrDeleteUsers()
         {
             Console.WriteLine("1 - Добавить пользователя 2 - Убрать пользователя");
             var choose = Convert.ToInt32(Console.ReadLine());
@@ -80,10 +80,10 @@ namespace MiniAccountingConsole
             switch (choose)
             {
                 case 1:
-                    AddUser(users);
+                    AddUser();
                     break;
                 case 2:
-                    DeleteUser(users);
+                    DeleteUser();
                     break;
             }
         }
@@ -109,13 +109,13 @@ namespace MiniAccountingConsole
             Console.WriteLine("Здесь вы можете вести учет потраченных и заработанных средств.");
         }
 
-        private void OperationsWithPersonalAccount(List<User> users)
+        private void OperationsWithPersonalAccount()
         {
             Console.WriteLine($"Вы выбрали операции с личным аккаунтом.");
             Console.WriteLine("Выберите аккаунт для взаимодействия.");
-            for (int i = 0; i < users.Count; i++)
+            for (int i = 0; i < _operator.Users.Count; i++)
             {
-                var currentUser = users[i];
+                var currentUser = _operator.Users[i];
                 Console.WriteLine($"{i + 1} - {currentUser.Name} {currentUser.Money}");
             }
             var choose1 = Convert.ToInt32(Console.ReadLine());
@@ -123,15 +123,15 @@ namespace MiniAccountingConsole
             switch (choose1)
             {
                 case 1:
-                    Console.WriteLine($"Вы выбрали аккаунт - {users[choose1 - 1]}");
+                    Console.WriteLine($"Вы выбрали аккаунт - {_operator.Users[choose1 - 1]}");
 
                     break;
                 case 2:
-                    Console.WriteLine($"Вы выбрали аккаунт - {users[choose1 - 1]}");
+                    Console.WriteLine($"Вы выбрали аккаунт - {_operator.Users[choose1 - 1]}");
 
                     break;
                 case 3:
-                    Console.WriteLine($"Вы выбрали аккаунт - {users[choose1 - 1]}");
+                    Console.WriteLine($"Вы выбрали аккаунт - {_operator.Users[choose1 - 1]}");
 
                     break;
             }
@@ -172,7 +172,7 @@ namespace MiniAccountingConsole
             return Convert.ToInt32(Console.ReadLine());
         }
 
-        private void AddUser(List<User> users)
+        private void AddUser()
         {
             Console.WriteLine("Введите имя нового аккаунта");
             var chooseName = ReadAndValidateString();
@@ -191,21 +191,21 @@ namespace MiniAccountingConsole
             }
 
             var newUser = new User(chooseName, chooseMoney);
-            users.Add(newUser);
+            _operator.Users.Add(newUser);
         }
 
-        private void DeleteUser(List<User> users)
+        private void DeleteUser()
         {
             Console.WriteLine("Выберите юзера для удаления.");
-            for (int i = 0; i < users.Count; i++)
+            for (int i = 0; i < _operator.Users.Count; i++)
             {
-                Console.WriteLine($"{i + 1} - {users[i]}");
+                Console.WriteLine($"{i + 1} - {_operator.Users[i]}");
             }
             var choose = Convert.ToInt32(Console.ReadLine());
-            users.RemoveAt(choose - 1);
-            for (int i = 0; i < users.Count; i++)
+            _operator.Users.RemoveAt(choose - 1);
+            for (int i = 0; i < _operator.Users.Count; i++)
             {
-                Console.WriteLine($"{i + 1} - {users[i]}");
+                Console.WriteLine($"{i + 1} - {_operator.Users[i]}");
             }
         }
     }

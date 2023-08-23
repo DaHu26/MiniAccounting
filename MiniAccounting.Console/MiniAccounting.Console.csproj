@@ -61,7 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\ActionHistory.cs" />
+    <Compile Include="Core\TransactionInfo.cs" />
     <Compile Include="Core\Operator.cs" />
     <Compile Include="Core\ReadWriteHistoryOperationsFile.cs" />
     <Compile Include="Core\TypeOperation.cs" />

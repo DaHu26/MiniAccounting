@@ -21,7 +21,7 @@ namespace MiniAccountingConsole.Core
 
         public double TopUpTotalBalance(double addMoney, string comment)
         {
-            var operationInfo = new ActionHistory(DateTimeOffset.UtcNow, TypeOperation.TopUp, comment, Guid.Empty, Guid.Empty);
+            var operationInfo = new TransactionInfo(DateTimeOffset.UtcNow, TypeOperation.TopUp, comment, Guid.Empty, Guid.Empty);
             _readWriteHistoryOperations.WriteOperation(operationInfo);
 
             return TotalMoney += addMoney;
@@ -29,7 +29,7 @@ namespace MiniAccountingConsole.Core
 
         public double RemoveFromTotalBalance(double removeMoney, string comment)
         {
-            var operationInfo = new ActionHistory(DateTimeOffset.UtcNow, TypeOperation.Remove, comment, Guid.Empty, Guid.Empty);
+            var operationInfo = new TransactionInfo(DateTimeOffset.UtcNow, TypeOperation.Remove, comment, Guid.Empty, Guid.Empty);
             _readWriteHistoryOperations.WriteOperation(operationInfo);
 
             return TotalMoney -= removeMoney;
