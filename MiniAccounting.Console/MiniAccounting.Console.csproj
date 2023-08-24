@@ -61,11 +61,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\IUserKeeper.cs" />
     <Compile Include="Core\TransactionInfo.cs" />
     <Compile Include="Core\Operator.cs" />
     <Compile Include="Core\ReadWriteHistoryOfTransactionsFromFile.cs" />
     <Compile Include="Core\TypeOperation.cs" />
     <Compile Include="Core\IReadWriteHistoryOfTransactions.cs" />
+    <Compile Include="Core\UserFileKeeper.cs" />
     <Compile Include="MainMenu.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
