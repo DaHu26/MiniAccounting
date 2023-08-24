@@ -1,4 +1,5 @@
 ﻿using MiniAccountingConsole.Core;
+using MiniAccountingConsole.Logger;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,10 +14,12 @@ namespace MiniAccountingConsole
     internal class MainMenu
     {
         private Operator _operator;
+        private readonly ILogger _logger;
 
-        public MainMenu()
+        public MainMenu(ILogger logger)
         {
-            _operator = new Operator();
+            _logger = logger;
+            _operator = new Operator(logger);
         }
 
         public void Start()
@@ -38,7 +41,7 @@ namespace MiniAccountingConsole
 
                 while (choose < 1 || choose > 5)
                 {
-                    Console.WriteLine("Выбрана неизвестная операция, повторите ввод.");
+                    _logger.WriteLine("Выбрана неизвестная операция, повторите ввод.");
                     choose = Convert.ToInt32(Console.ReadLine());
                 }
 
@@ -54,10 +57,10 @@ namespace MiniAccountingConsole
                         RemoveFromTotalBalance();
                         break;
                     case 4:
-                        Console.WriteLine($"Ваш текущий баланс: {_operator.TotalMoney}");
+                        _logger.WriteLine($"Ваш текущий баланс: {_operator.TotalMoney}");
                         break;
                     case 5:
-                        Console.WriteLine("Пока.");
+                        _logger.WriteLine("Пока.");
                         onOff = false;
                         break;
 
@@ -67,13 +70,13 @@ namespace MiniAccountingConsole
 
         private void RegisterOrDeleteUsers()
         {
-            Console.WriteLine("1 - Добавить пользователя 2 - Убрать пользователя");
+            _logger.WriteLine("1 - Добавить пользователя 2 - Убрать пользователя");
             var choose = Convert.ToInt32(Console.ReadLine());
 
             while (choose < 1 && choose > 2)
             {
-                Console.WriteLine("Выбрана неизвестная операция.");
-                Console.WriteLine("Выберите заново.");
+                _logger.WriteLine("Выбрана неизвестная операция.");
+                _logger.WriteLine("Выберите заново.");
                 choose = Convert.ToInt32(Console.ReadLine());
             }
 
@@ -91,13 +94,13 @@ namespace MiniAccountingConsole
         private string ReadAndValidateString()
         {
             var str = Console.ReadLine();
-            Console.WriteLine($"Вы написали: {str}, это верно? 1 - Да 2 - Нет.");
+            _logger.WriteLine($"Вы написали: {str}, это верно? 1 - Да 2 - Нет.");
             var choose = Convert.ToInt32(Console.ReadLine());
             while (choose != 1)
             {
-                Console.WriteLine("Введите повторно.");
+                _logger.WriteLine("Введите повторно.");
                 str = Console.ReadLine();
-                Console.WriteLine($"Вы написали: {str}, это верно? 1 - Да 2 - Нет.");
+                _logger.WriteLine($"Вы написали: {str}, это верно? 1 - Да 2 - Нет.");
                 choose = Convert.ToInt32(Console.ReadLine());
             }
             return str;
@@ -105,33 +108,33 @@ namespace MiniAccountingConsole
 
         private void SayHi()
         {
-            Console.WriteLine("Вас приведствует программа \"Mini Accounting\"");
-            Console.WriteLine("Здесь вы можете вести учет потраченных и заработанных средств.");
+            _logger.WriteLine("Вас приведствует программа \"Mini Accounting\"");
+            _logger.WriteLine("Здесь вы можете вести учет потраченных и заработанных средств.");
         }
 
         private void OperationsWithPersonalAccount()
         {
-            Console.WriteLine($"Вы выбрали операции с личным аккаунтом.");
-            Console.WriteLine("Выберите аккаунт для взаимодействия.");
+            _logger.WriteLine($"Вы выбрали операции с личным аккаунтом.");
+            _logger.WriteLine("Выберите аккаунт для взаимодействия.");
             for (int i = 0; i < _operator.Users.Count; i++)
             {
                 var currentUser = _operator.Users[i];
-                Console.WriteLine($"{i + 1} - {currentUser.Name} {currentUser.Money}");
+                _logger.WriteLine($"{i + 1} - {currentUser.Name} {currentUser.Money}");
             }
             var choose1 = Convert.ToInt32(Console.ReadLine());
 
             switch (choose1)
             {
                 case 1:
-                    Console.WriteLine($"Вы выбрали аккаунт - {_operator.Users[choose1 - 1]}");
+                    _logger.WriteLine($"Вы выбрали аккаунт - {_operator.Users[choose1 - 1]}");
 
                     break;
                 case 2:
-                    Console.WriteLine($"Вы выбрали аккаунт - {_operator.Users[choose1 - 1]}");
+                    _logger.WriteLine($"Вы выбрали аккаунт - {_operator.Users[choose1 - 1]}");
 
                     break;
                 case 3:
-                    Console.WriteLine($"Вы выбрали аккаунт - {_operator.Users[choose1 - 1]}");
+                    _logger.WriteLine($"Вы выбрали аккаунт - {_operator.Users[choose1 - 1]}");
 
                     break;
             }
@@ -139,54 +142,54 @@ namespace MiniAccountingConsole
 
         private void TopUpTotalBalance()
         {
-            Console.WriteLine("Вы выбрали операцию пополнения общего баланса.");
-            Console.WriteLine($"Ваш текущий баланс: {_operator.TotalMoney}");
-            Console.WriteLine("Введите сумму для пополнения.");
+            _logger.WriteLine("Вы выбрали операцию пополнения общего баланса.");
+            _logger.WriteLine($"Ваш текущий баланс: {_operator.TotalMoney}");
+            _logger.WriteLine("Введите сумму для пополнения.");
             var addMoney = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("Введите комментариий.");
+            _logger.WriteLine("Введите комментариий.");
             var comment = Console.ReadLine();
             _operator.TopUpTotalBalance(addMoney, comment);
-            Console.WriteLine($"Ваш текущий баланс: {_operator.TotalMoney}");
+            _logger.WriteLine($"Ваш текущий баланс: {_operator.TotalMoney}");
         }
 
         private void RemoveFromTotalBalance()
         {
-            Console.WriteLine("Вы выбрали операцию снятия с общего баланса.");
-            Console.WriteLine($"Ваше текущий баланс: {_operator.TotalMoney}");
-            Console.WriteLine("Введите сумму для снятия.");
+            _logger.WriteLine("Вы выбрали операцию снятия с общего баланса.");
+            _logger.WriteLine($"Ваше текущий баланс: {_operator.TotalMoney}");
+            _logger.WriteLine("Введите сумму для снятия.");
             var takeOffMoney = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("Введите комментарий.");
+            _logger.WriteLine("Введите комментарий.");
             var comment = Console.ReadLine();
             _operator.RemoveFromTotalBalance(takeOffMoney, comment);
-            Console.WriteLine($"Ваше текущий баланс: {_operator.TotalMoney}");
+            _logger.WriteLine($"Ваше текущий баланс: {_operator.TotalMoney}");
         }
 
         private int ChooseOperation()
         {
-            Console.WriteLine("Выберите необходимую вам операцию:");
-            Console.WriteLine($"1 - Операции с личным аккаунтом.");
-            Console.WriteLine($"2 - Пополнить общий баланс.");
-            Console.WriteLine($"3 - Снять с общего баланс.");
-            Console.WriteLine($"4 - Проверить общий баланс.");
-            Console.WriteLine($"5 - Завершить работу.");
+            _logger.WriteLine("Выберите необходимую вам операцию:");
+            _logger.WriteLine($"1 - Операции с личным аккаунтом.");
+            _logger.WriteLine($"2 - Пополнить общий баланс.");
+            _logger.WriteLine($"3 - Снять с общего баланс.");
+            _logger.WriteLine($"4 - Проверить общий баланс.");
+            _logger.WriteLine($"5 - Завершить работу.");
             return Convert.ToInt32(Console.ReadLine());
         }
 
         private void AddUser()
         {
-            Console.WriteLine("Введите имя нового аккаунта");
+
+            _logger.WriteLine("Введите имя нового аккаунта");
             var chooseName = ReadAndValidateString();
 
-            Console.WriteLine("Введите начальное количество денег на счету у этого аккаунта.");
+            _logger.WriteLine("Введите начальное количество денег на счету у этого аккаунта.");
             var chooseMoney = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine($"Количество денег: {chooseMoney}, это верно? 1 - Да 2 - Нет.");
-
+            _logger.WriteLine($"Количество денег: {chooseMoney}, это верно? 1 - Да 2 - Нет.");
             var choose = Convert.ToInt32(Console.ReadLine());
             while (choose != 1)
             {
-                Console.WriteLine("Введите количество денег повторно.");
+                _logger.WriteLine("Введите количество денег повторно.");
                 chooseMoney = Convert.ToInt32(Console.ReadLine());
-                Console.WriteLine($"Количество денег: {chooseMoney}, это верно? 1 - Да 2 - Нет.");
+                _logger.WriteLine($"Количество денег: {chooseMoney}, это верно? 1 - Да 2 - Нет.");
                 choose = Convert.ToInt32(Console.ReadLine());
             }
 
@@ -196,16 +199,16 @@ namespace MiniAccountingConsole
 
         private void DeleteUser()
         {
-            Console.WriteLine("Выберите юзера для удаления.");
+            _logger.WriteLine("Выберите юзера для удаления.");
             for (int i = 0; i < _operator.Users.Count; i++)
             {
-                Console.WriteLine($"{i + 1} - {_operator.Users[i]}");
+                _logger.WriteLine($"{i + 1} - {_operator.Users[i]}");
             }
             var choose = Convert.ToInt32(Console.ReadLine());
             _operator.Users.RemoveAt(choose - 1);
             for (int i = 0; i < _operator.Users.Count; i++)
             {
-                Console.WriteLine($"{i + 1} - {_operator.Users[i]}");
+                _logger.WriteLine($"{i + 1} - {_operator.Users[i]}");
             }
         }
     }
