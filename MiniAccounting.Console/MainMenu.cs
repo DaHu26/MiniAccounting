@@ -177,13 +177,13 @@ namespace MiniAccountingConsole
 
         private void AddUser()
         {
+
             _logger.WriteLine("Введите имя нового аккаунта");
             var chooseName = ReadAndValidateString();
 
             _logger.WriteLine("Введите начальное количество денег на счету у этого аккаунта.");
             var chooseMoney = Convert.ToInt32(Console.ReadLine());
             _logger.WriteLine($"Количество денег: {chooseMoney}, это верно? 1 - Да 2 - Нет.");
-
             var choose = Convert.ToInt32(Console.ReadLine());
             while (choose != 1)
             {

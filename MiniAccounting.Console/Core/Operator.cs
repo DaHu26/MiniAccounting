@@ -27,7 +27,6 @@ namespace MiniAccountingConsole.Core
         public double TopUpTotalBalance(double addMoney, string comment)
         {
             _logger.WriteLine($"{nameof(TopUpTotalBalance)}: addmoney={addMoney}, comment={comment}");
-
             var operationInfo = new TransactionInfo(DateTimeOffset.UtcNow, TypeOfTransaction.TopUp, comment, Guid.Empty, Guid.Empty);
             _readWriteHistoryOfTransactions.WriteTransaction(operationInfo);
 
@@ -37,7 +36,6 @@ namespace MiniAccountingConsole.Core
         public double RemoveFromTotalBalance(double removeMoney, string comment)
         {
             _logger.WriteLine($"{nameof(RemoveFromTotalBalance)}: removeMoney={removeMoney}, comment={comment}");
-
             var operationInfo = new TransactionInfo(DateTimeOffset.UtcNow, TypeOfTransaction.Remove, comment, Guid.Empty, Guid.Empty);
             _readWriteHistoryOfTransactions.WriteTransaction(operationInfo);
 
