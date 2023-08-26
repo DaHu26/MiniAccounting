@@ -16,7 +16,7 @@ namespace MiniAccountingConsole.Logger
                 logLevel = LogLevel.Info;
             }
 
-            if (LogLevel >= logLevel)
+            if (logLevel <= LogLevel)
             {
                 string logLevelToString = null;
                 switch (logLevel)

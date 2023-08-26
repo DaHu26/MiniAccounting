@@ -26,12 +26,7 @@ namespace MiniAccountingConsole.Core
 
         public override string ToString()
         {
-            var list = new List<string>();
-            foreach (var prop in this.GetType().GetProperties())
-            {
-                list.Add($"{prop.Name}={prop.GetValue(this)}");
-            }
-            return string.Join("; ", list);
+            return Static.ToStringPropsWithReflection(this);
         }
     }
 }

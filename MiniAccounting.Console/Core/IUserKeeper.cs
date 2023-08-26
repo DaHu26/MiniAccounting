@@ -11,8 +11,9 @@ namespace MiniAccountingConsole.Core
     {
         void Edit(User user);
         void Save(User user);
-        void Delete(User user);
-        User[] ReadUsers();
-        User ReadUser(Guid uid);
+        void SaveUsers(IEnumerable<User> users);
+        void Delete(Guid userUid);
+        List<User> ReadUsers();
+        User ReadUser(Guid userUid);
     }
 }

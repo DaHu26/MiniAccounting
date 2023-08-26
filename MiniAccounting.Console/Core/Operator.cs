@@ -13,8 +13,6 @@ namespace MiniAccountingConsole.Core
         public List<User> Users { get; private set; }
 
         private ILogger _logger;
-        
-
         private IReadWriteHistoryOfTransactions _readWriteHistoryOfTransactions;
 
         public Operator(ILogger logger)
