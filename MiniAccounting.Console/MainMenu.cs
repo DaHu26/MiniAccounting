@@ -19,7 +19,7 @@ namespace MiniAccountingConsole
         public MainMenu(ILogger logger)
         {
             _logger = logger;
-            _operator = new Operator(logger);
+            _operator = new Operator(logger, new UserFileKeeper(logger), new ReadWriteHistoryOfTransactionsFromFile(lo));
         }
 
         public void Start()
@@ -194,7 +194,8 @@ namespace MiniAccountingConsole
             }
 
             var newUser = new User(chooseName, chooseMoney);
-            _operator.Users.Add(newUser);
+
+            _operator.SaveUser(newUser);
         }
 
         private void DeleteUser()

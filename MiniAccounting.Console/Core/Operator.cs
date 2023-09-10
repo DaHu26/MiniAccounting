@@ -1,6 +1,8 @@
 ﻿using MiniAccountingConsole.Logger;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,16 +12,16 @@ namespace MiniAccountingConsole.Core
     public class Operator
     {
         public double TotalMoney { get; private set; }
-        public List<User> Users { get; private set; }
 
         private ILogger _logger;
         private IReadWriteHistoryOfTransactions _readWriteHistoryOfTransactions;
+        private IUserKeeper _userKeeper;
 
-        public Operator(ILogger logger)
+        public Operator(ILogger logger, IUserKeeper userKeeper, IReadWriteHistoryOfTransactions readWriteHistoryOfTransactions)
         {
             _logger = new PrefixLogger(logger, $"[{nameof(Operator)}] ");
-            Users = new List<User>();
-            _readWriteHistoryOfTransactions = new ReadWriteHistoryOfTransactionsFromFile(_logger);
+            _readWriteHistoryOfTransactions = readWriteHistoryOfTransactions;
+            _userKeeper = userKeeper;
         }
 
         public double TopUpTotalBalance(double addMoney, string comment)
@@ -38,6 +40,43 @@ namespace MiniAccountingConsole.Core
             _readWriteHistoryOfTransactions.WriteTransaction(operationInfo);
 
             return TotalMoney -= removeMoney;
+        }
+
+        public void SaveUser(User user)
+        {
+            _logger.WriteLine($"{nameof(SaveUser)} Name:{user.Name} Money:{user.Money}");
+            _userKeeper.Save(user);
+        }
+        
+        public void SaveUsers(IEnumerable<User> users)
+        {
+            var usersString = String.Join(Environment.NewLine, users);
+            _logger.WriteLine($"{nameof(SaveUsers)}:{Environment.NewLine} {usersString}");
+            _userKeeper.SaveUsers(users);
+        }
+
+        public List<User> ReadUsers()
+        {
+            _logger.Debug($"{nameof(ReadUsers)}");
+            return _userKeeper.ReadUsers();
+        }
+
+        public User ReadUser(Guid userUid)
+        {
+            _logger.Debug($"{nameof(ReadUsers)} Id: {userUid}");
+            return _userKeeper.ReadUser(userUid);
+        }
+
+        public void Edit(User user)
+        {
+            _logger.WriteLine($"{nameof(Edit)}: {user}");
+            _userKeeper.Edit(user);
+        }
+
+        public void Delete(Guid userUid)
+        {
+            _logger.WriteLine($"{nameof(Delete)}: {userUid}");
+            _userKeeper.Delete(userUid);
         }
     }
 }

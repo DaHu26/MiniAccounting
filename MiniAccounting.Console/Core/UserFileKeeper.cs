@@ -22,7 +22,7 @@ namespace MiniAccountingConsole.Core
 
         public void Delete(Guid userUid)
         {
-            _logger.WriteLine($"{nameof(Delete)}: {userUid}");
+            _logger.Trace($"{nameof(Delete)}: {userUid}");
             var users = ReadUsers();
             var userToDelete = users.FirstOrDefault(x => x.Uid == userUid);
             if (userToDelete == null)
@@ -34,7 +34,7 @@ namespace MiniAccountingConsole.Core
 
         public void Edit(User user)
         {
-            _logger.WriteLine($"{nameof(Edit)}: {user}");
+            _logger.Trace($"{nameof(Edit)}: {user}");
             var users = ReadUsers();
             var userToDelete = users.FirstOrDefault(x => x.Uid == user.Uid);
 
@@ -75,7 +75,7 @@ namespace MiniAccountingConsole.Core
 
         public void Save(User user)
         {
-            _logger.WriteLine($"{nameof(Save)}: {user}");
+            _logger.Trace($"{nameof(Save)}: {user}");
             var users = ReadUsers();
             users.Add(user);
             WriteToFile(users);
@@ -84,7 +84,7 @@ namespace MiniAccountingConsole.Core
         public void SaveUsers(IEnumerable<User> users)
         {
             var usersString = String.Join(Environment.NewLine, users);
-            _logger.WriteLine($"{nameof(SaveUsers)}:{Environment.NewLine} {usersString}");
+            _logger.Trace($"{nameof(SaveUsers)}:{Environment.NewLine} {usersString}");
 
             var newUsers = ReadUsers();
             newUsers.AddRange(users);
