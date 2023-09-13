@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MiniAccountingConsole.Logger
+namespace MiniAccounting.Infrastructure.Logger
 {
     public class NullLogger : ILogger
     {

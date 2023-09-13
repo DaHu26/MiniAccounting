@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MiniAccountingConsole.Core
+namespace MiniAccounting.Infrastructure
 {
     public class User
     {
-        public Guid Uid { get; set; }
+        public Guid Uid { get; private set; }
         public string Name { get; private set; }
         public double Money { get; private set; }
 
@@ -25,7 +25,7 @@ namespace MiniAccountingConsole.Core
 
         public override string ToString()
         {
-            return $"{Name} {Money}";
+            return Static.ToStringPropsWithReflection(this);
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MiniAccountingConsole.Core
+namespace MiniAccounting.Infrastructure
 {
     public interface IUserKeeper
     {

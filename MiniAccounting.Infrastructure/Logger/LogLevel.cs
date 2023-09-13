@@ -1,4 +1,4 @@
-﻿namespace MiniAccountingConsole.Logger
+﻿namespace MiniAccounting.Infrastructure.Logger
 {
     public enum LogLevel
     {

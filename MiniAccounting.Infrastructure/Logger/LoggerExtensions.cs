@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MiniAccountingConsole.Logger
+namespace MiniAccounting.Infrastructure.Logger
 {
     public static class LoggerExtensions
     {

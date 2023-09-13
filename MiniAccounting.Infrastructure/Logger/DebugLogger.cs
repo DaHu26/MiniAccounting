@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace MiniAccountingConsole.Logger
+namespace MiniAccounting.Infrastructure.Logger
 {
     public sealed class DebugLogger : AbstractLogger
     {

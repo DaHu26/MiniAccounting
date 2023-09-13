@@ -1,4 +1,4 @@
-﻿namespace MiniAccountingConsole.Core
+﻿namespace MiniAccounting.Infrastructure
 {
     public enum TypeOfTransaction
     {

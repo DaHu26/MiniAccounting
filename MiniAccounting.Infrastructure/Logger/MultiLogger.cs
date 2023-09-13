@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MiniAccountingConsole.Logger
+namespace MiniAccounting.Infrastructure.Logger
 {
     public sealed class MultiLogger : ILogger
     {
