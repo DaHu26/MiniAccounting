@@ -7,4 +7,6 @@ global using MiniAccounting.Infrastructure.Logger;
 global using Newtonsoft.Json;
 global using System.Reflection;
 global using MiniAccounting.Infrastructure;
-global using MiniAccounting.UIConsole;
+global using ILogger = MiniAccounting.Infrastructure.Logger.ILogger;
+global using LogLevel = MiniAccounting.Infrastructure.Logger.LogLevel;
+global using Microsoft.AspNetCore.Mvc;

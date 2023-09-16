@@ -1,6 +1,6 @@
 ﻿using Console = System.Console;
 
-namespace MiniAccounting.UI.Console;
+namespace MiniAccounting.UIConsole;
 
 internal class MainMenu
 {
@@ -10,14 +10,11 @@ internal class MainMenu
     public MainMenu(ILogger logger)
     {
         _logger = logger;
-        _operator = new Operator(logger, new UserFileKeeper(logger), new ReadWriteHistoryOfTransactionsFromFile(lo));
+        _operator = new Operator(logger, new UserFileKeeper(logger), new ReadWriteHistoryOfTransactionsFromFile(logger));
     }
 
     public void Start()
     {
-        //_operator.Users.Add(new User("Dan", 0));
-        //_operator.Users.Add(new User("Val", 0));
-        //_operator.Users.Add(new User("Sne", 0));
         SayHi();
         RegisterOrDeleteUsers();
         StartMenu();
@@ -107,9 +104,10 @@ internal class MainMenu
     {
         _logger.WriteLine($"Вы выбрали операции с личным аккаунтом.");
         _logger.WriteLine("Выберите аккаунт для взаимодействия.");
-        for (int i = 0; i < _operator.Users.Count; i++)
+        var users = _operator.ReadUsers();
+        for (int i = 0; i < users.Count; i++)
         {
-            var currentUser = _operator.Users[i];
+            var currentUser = users[i];
             _logger.WriteLine($"{i + 1} - {currentUser.Name} {currentUser.Money}");
         }
         var choose1 = Convert.ToInt32(Console.ReadLine());
@@ -117,15 +115,15 @@ internal class MainMenu
         switch (choose1)
         {
             case 1:
-                _logger.WriteLine($"Вы выбрали аккаунт - {_operator.Users[choose1 - 1]}");
+                _logger.WriteLine($"Вы выбрали аккаунт - {users[choose1 - 1]}");
 
                 break;
             case 2:
-                _logger.WriteLine($"Вы выбрали аккаунт - {_operator.Users[choose1 - 1]}");
+                _logger.WriteLine($"Вы выбрали аккаунт - {users[choose1 - 1]}");
 
                 break;
             case 3:
-                _logger.WriteLine($"Вы выбрали аккаунт - {_operator.Users[choose1 - 1]}");
+                _logger.WriteLine($"Вы выбрали аккаунт - {users[choose1 - 1]}");
 
                 break;
         }
@@ -192,15 +190,16 @@ internal class MainMenu
     private void DeleteUser()
     {
         _logger.WriteLine("Выберите юзера для удаления.");
-        for (int i = 0; i < _operator.Users.Count; i++)
+        var users = _operator.ReadUsers();
+        for (int i = 0; i < users.Count; i++)
         {
-            _logger.WriteLine($"{i + 1} - {_operator.Users[i]}");
+            _logger.WriteLine($"{i + 1} - {users[i]}");
         }
         var choose = Convert.ToInt32(Console.ReadLine());
-        _operator.Users.RemoveAt(choose - 1);
-        for (int i = 0; i < _operator.Users.Count; i++)
+        users.RemoveAt(choose - 1);
+        for (int i = 0; i < users.Count; i++)
         {
-            _logger.WriteLine($"{i + 1} - {_operator.Users[i]}");
+            _logger.WriteLine($"{i + 1} - {users[i]}");
         }
     }
 }

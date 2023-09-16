@@ -1,0 +1,9 @@
+[
+  {
+    "DateTimeOffset": "2023-09-16T18:18:27.1308322+00:00",
+    "TypeOfTransaction": 1,
+    "Comment": "minet",
+    "UserUid": "00000000-0000-0000-0000-000000000000",
+    "DestinationUserUid": "00000000-0000-0000-0000-000000000000"
+  }
+]

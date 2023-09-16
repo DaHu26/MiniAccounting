@@ -8,9 +8,9 @@ namespace MiniAccounting.Infrastructure
 {
     public class User
     {
-        public Guid Uid { get; private set; }
-        public string Name { get; private set; }
-        public double Money { get; private set; }
+        public Guid Uid { get; set; }
+        public string Name { get; set; }
+        public double Money { get; set; }
 
         public User(string name, double money) : this (name, money, Guid.NewGuid())
         {
@@ -21,6 +21,11 @@ namespace MiniAccounting.Infrastructure
             Uid = uid;
             Name = name;
             Money = money;
+        }
+
+        public User()
+        {
+            
         }
 
         public override string ToString()
