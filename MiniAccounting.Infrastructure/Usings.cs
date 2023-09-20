@@ -6,3 +6,5 @@ global using System.Threading.Tasks;
 global using MiniAccounting.Infrastructure.Logger;
 global using Newtonsoft.Json;
 global using System.Reflection;
+global using Microsoft.AspNetCore.WebUtilities;
+global using System.Net;

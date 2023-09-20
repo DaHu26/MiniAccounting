@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniAccounting.Infrastructu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniAccounting.UI.Console", "MiniAccounting.Console\MiniAccounting.UI.Console.csproj", "{075523DD-3F0D-42A2-BF90-BFF3420A38C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniAccounting.Service", "MiniAccounting.Service\MiniAccounting.Service.csproj", "{F2FC14D5-9D12-4F5F-96FA-EEB384DC714F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniAccounting.Service", "MiniAccounting.Service\MiniAccounting.Service.csproj", "{F2FC14D5-9D12-4F5F-96FA-EEB384DC714F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniAccounting.Tests", "MiniAccounting.Tests\MiniAccounting.Tests.csproj", "{B9C52971-A907-4564-9802-DEBB5A1501E2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{F2FC14D5-9D12-4F5F-96FA-EEB384DC714F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2FC14D5-9D12-4F5F-96FA-EEB384DC714F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2FC14D5-9D12-4F5F-96FA-EEB384DC714F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9C52971-A907-4564-9802-DEBB5A1501E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9C52971-A907-4564-9802-DEBB5A1501E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9C52971-A907-4564-9802-DEBB5A1501E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9C52971-A907-4564-9802-DEBB5A1501E2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

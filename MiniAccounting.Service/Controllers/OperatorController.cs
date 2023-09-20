@@ -24,4 +24,10 @@ public class OperatorController : ControllerBase
     {
         return _operator.RemoveFromTotalBalance(removeMoney, comment);
     }
+
+    [HttpGet]
+    public double GetTotalBalance()
+    {
+        return _operator.GetTotalBalance();
+    }
 }

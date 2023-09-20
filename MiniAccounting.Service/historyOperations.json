@@ -12,5 +12,19 @@
     "Comment": "123",
     "UserUid": "00000000-0000-0000-0000-000000000000",
     "DestinationUserUid": "00000000-0000-0000-0000-000000000000"
+  },
+  {
+    "DateTimeOffset": "2023-09-20T14:16:47.2750467+00:00",
+    "TypeOfTransaction": 1,
+    "Comment": "money",
+    "UserUid": "00000000-0000-0000-0000-000000000000",
+    "DestinationUserUid": "00000000-0000-0000-0000-000000000000"
+  },
+  {
+    "DateTimeOffset": "2023-09-20T14:18:56.5077045+00:00",
+    "TypeOfTransaction": 1,
+    "Comment": "money",
+    "UserUid": "00000000-0000-0000-0000-000000000000",
+    "DestinationUserUid": "00000000-0000-0000-0000-000000000000"
   }
 ]

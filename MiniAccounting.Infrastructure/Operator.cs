@@ -71,4 +71,9 @@ public class Operator
         _logger.WriteLine($"{nameof(Delete)}: {userUid}");
         _userKeeper.Delete(userUid);
     }
+
+    public double GetTotalBalance()
+    {
+        return TotalMoney;
+    }
 }
