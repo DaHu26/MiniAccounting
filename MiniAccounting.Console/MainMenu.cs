@@ -5,7 +5,7 @@ namespace MiniAccounting.UIConsole;
 
 internal class MainMenu
 {
-    private Operator _operator;
+    private readonly Operator _operator;
     private readonly ILogger _logger;
 
     public MainMenu(ILogger logger)
