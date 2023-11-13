@@ -1,4 +1,4 @@
-﻿namespace MiniAccounting.Infrastructure;
+﻿namespace MiniAccounting.Infrastructure.DataKeepers;
 
 public class UserFileKeeper : IUserKeeper
 {
@@ -43,7 +43,7 @@ public class UserFileKeeper : IUserKeeper
             return null;
 
         var users = ReadUsers();
-        return users.FirstOrDefault(x => x.Uid == userUid) 
+        return users.FirstOrDefault(x => x.Uid == userUid)
             ?? throw new ArgumentException($"Юзер с uid '{userUid}' не найден."); ;
     }
 
@@ -73,7 +73,7 @@ public class UserFileKeeper : IUserKeeper
 
     public void SaveUsers(IEnumerable<User> users)
     {
-        var usersString = String.Join(Environment.NewLine, users);
+        var usersString = string.Join(Environment.NewLine, users);
         _logger.Trace($"{nameof(SaveUsers)}:{Environment.NewLine} {usersString}");
 
         var newUsers = ReadUsers();

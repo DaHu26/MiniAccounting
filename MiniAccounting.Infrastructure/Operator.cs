@@ -1,4 +1,5 @@
-﻿using MiniAccounting.Infrastructure.Logger;
+﻿using MiniAccounting.Infrastructure.DataKeepers;
+using MiniAccounting.Infrastructure.Logger;
 
 namespace MiniAccounting.Infrastructure;
 
@@ -20,7 +21,7 @@ public class Operator
     public double TopUpTotalBalance(double addMoney, string comment)
     {
         _logger.WriteLine($"{nameof(TopUpTotalBalance)}: addmoney={addMoney}, comment={comment}");
-        var operationInfo = new TransactionInfo(DateTimeOffset.UtcNow, TypeOfTransaction.TopUp, comment, Guid.Empty, Guid.Empty);
+        var operationInfo = new TransactionInfo(Guid.NewGuid(), DateTimeOffset.UtcNow, TypeOfTransaction.TopUp, comment, Guid.Empty, Guid.Empty);
         _readWriteHistoryOfTransactions.WriteTransaction(operationInfo);
 
         return TotalMoney += addMoney;
@@ -29,7 +30,7 @@ public class Operator
     public double RemoveFromTotalBalance(double removeMoney, string comment)
     {
         _logger.WriteLine($"{nameof(RemoveFromTotalBalance)}: removeMoney={removeMoney}, comment={comment}");
-        var operationInfo = new TransactionInfo(DateTimeOffset.UtcNow, TypeOfTransaction.Remove, comment, Guid.Empty, Guid.Empty);
+        var operationInfo = new TransactionInfo(Guid.NewGuid(), DateTimeOffset.UtcNow, TypeOfTransaction.Remove, comment, Guid.Empty, Guid.Empty);
         _readWriteHistoryOfTransactions.WriteTransaction(operationInfo);
 
         return TotalMoney -= removeMoney;

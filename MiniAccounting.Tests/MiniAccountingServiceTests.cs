@@ -63,4 +63,24 @@ public class MiniAccountingServiceTests
         Assert.AreEqual(expectedResult, result, $"Значения результата не совпадает, ожидается {expectedResult}, получено {result}");
         Assert.AreEqual(expectedResult, after, $"Значения результата не совпадает, ожидается {expectedResult}, получено {after}");
     }
+
+    [TestMethod]
+    public async Task RevomeFromTotalBalanceTest()
+    {
+        var removeMoney = 101;
+        var comment = "test 101";
+
+        var before = await _client.GetTotalBalanceAsync();
+        _logger.WriteLine($"GetTotalBalanceAsync before = {before}");
+
+        var result = await _client.RemoveFromTotalBalanceAsync(removeMoney, comment);
+        _logger.WriteLine($"RemoveFromTotalBalanceAsync result = {result}");
+
+        var after = await _client.GetTotalBalanceAsync();
+        _logger.WriteLine($"GetTotalBalanceAsync after = {result}");
+
+        var expectedResult = before - removeMoney;
+        Assert.AreEqual(expectedResult, result, $"Значения результата не совпадает, ожидается {expectedResult}, получено {result}");
+        Assert.AreEqual(expectedResult, after, $"Значения результата не совпадает, ожидается {expectedResult}, получено {after}");
+    }
 }

@@ -1,4 +1,4 @@
-﻿namespace MiniAccounting.Infrastructure;
+﻿namespace MiniAccounting.Infrastructure.DataKeepers;
 
 public interface IUserKeeper
 {

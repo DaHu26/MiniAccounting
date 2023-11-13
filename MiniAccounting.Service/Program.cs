@@ -1,4 +1,12 @@
+using Microsoft.EntityFrameworkCore;
+using MiniAccounting.Infrastructure.DataKeepers;
+using MiniAccounting.Service;
+
 var builder = WebApplication.CreateBuilder(args);
+
+string connection = builder.Configuration.GetConnectionString("DbConnection");
+
+builder.Services.AddDbContext<MiniAccountingContext>(options => options.UseSqlServer(connection));
 
 // Add services to the container.
 
@@ -8,8 +16,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton<Operator>();
-builder.Services.AddSingleton<ILogger>((sp) => 
+builder.Services.AddTransient<Operator>();
+builder.Services.AddSingleton<ILogger>((sp) =>
 {
     var consoleLogger = ConsoleLogger.Instance;
     consoleLogger.NeedWriteFullDate = false;
@@ -17,8 +25,8 @@ builder.Services.AddSingleton<ILogger>((sp) =>
     logger.LogLevel = LogLevel.Trace;
     return logger;
 });
-builder.Services.AddSingleton<IReadWriteHistoryOfTransactions, ReadWriteHistoryOfTransactionsFromFile>();
-builder.Services.AddSingleton<IUserKeeper, UserFileKeeper>();
+builder.Services.AddTransient<IReadWriteHistoryOfTransactions, ReadWriteHistoryOfTransactionsFromDb>();
+builder.Services.AddTransient<IUserKeeper, UserDbKeeper>();
 
 var app = builder.Build();
 

@@ -1,4 +1,4 @@
-﻿namespace MiniAccounting.Infrastructure;
+﻿namespace MiniAccounting.Infrastructure.DataKeepers;
 
 public class ReadWriteHistoryOfTransactionsFromFile : IReadWriteHistoryOfTransactions
 {
@@ -12,7 +12,7 @@ public class ReadWriteHistoryOfTransactionsFromFile : IReadWriteHistoryOfTransac
 
     public List<TransactionInfo> ReadTransactions()
     {
-        _logger.Debug("Read Transactions");
+        _logger.Trace("Read Transactions");
 
         if (!File.Exists(PATH_TO_FILE))
             return new List<TransactionInfo>();

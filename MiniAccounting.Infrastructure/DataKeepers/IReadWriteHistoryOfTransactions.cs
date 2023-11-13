@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MiniAccounting.Infrastructure
+namespace MiniAccounting.Infrastructure.DataKeepers
 {
     public interface IReadWriteHistoryOfTransactions
     {
