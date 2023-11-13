@@ -1,0 +1,12 @@
+global using Microsoft.VisualStudio.TestTools.UnitTesting;
+global using System;
+global using System.Collections.Generic;
+global using System.Linq;
+global using System.Text;
+global using System.Threading.Tasks;
+global using MiniAccounting.Infrastructure.Logger;
+global using Newtonsoft.Json;
+global using System.Reflection;
+global using MiniAccounting.Infrastructure;
+global using ILogger = MiniAccounting.Infrastructure.Logger.ILogger;
+global using LogLevel = MiniAccounting.Infrastructure.Logger.LogLevel;
