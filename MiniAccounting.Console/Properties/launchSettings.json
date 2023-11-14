@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "MiniAccounting.UI.Console": {
+      "commandName": "Project",
+      "commandLineArgs": "--miniaccountingserviceaddress \"http://localhost:5099\" --loglevel 3"
+    }
+  }
+}

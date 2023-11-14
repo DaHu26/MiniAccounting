@@ -4,6 +4,7 @@
     {
         public static readonly Encoding Encoding = Encoding.UTF8;
 
+        public static Guid TotalBalanceUserUid = new Guid(1,1,1,1,1,1,1,1,1,1,1);
         public static string ToStringPropsWithReflection(object obj)
         {
             var list = new List<string>();
@@ -13,5 +14,6 @@
             }
             return string.Join("; ", list);
         }
+
     }
 }

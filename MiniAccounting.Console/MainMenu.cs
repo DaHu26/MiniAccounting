@@ -3,25 +3,25 @@ using Console = System.Console;
 
 namespace MiniAccounting.UIConsole;
 
-internal class MainMenu
+public class MainMenu
 {
-    private readonly Operator _operator;
     private readonly ILogger _logger;
+    private readonly MiniAccountingClient _client;
 
-    public MainMenu(ILogger logger)
+    public MainMenu(ILogger logger, MiniAccountingClient client)
     {
         _logger = logger;
-        _operator = new Operator(logger, new UserFileKeeper(logger), new ReadWriteHistoryOfTransactionsFromFile(logger));
+        _client = client;
     }
 
-    public void Start()
+    public async Task StartAsync()
     {
         SayHi();
-        RegisterOrDeleteUsers();
-        StartMenu();
+        await RegisterOrDeleteUsersAsync();
+        await StartMenuAsync();
     }
 
-    private void StartMenu()
+    private async Task StartMenuAsync()
     {
         var onOff = true;
         while (onOff)
@@ -37,27 +37,26 @@ internal class MainMenu
             switch (choose)
             {
                 case 1:
-                    OperationsWithPersonalAccount();
+                    await OperationsWithPersonalAccountAsync();
                     break;
                 case 2:
-                    TopUpTotalBalance();
+                    await TopUpTotalBalanceAsync();
                     break;
                 case 3:
-                    RemoveFromTotalBalance();
+                    await RemoveFromTotalBalanceAsync();
                     break;
                 case 4:
-                    _logger.WriteLine($"Ваш текущий баланс: {_operator.TotalMoney}");
+                    _logger.WriteLine($"Ваш текущий баланс: {_client.GetTotalBalanceAsync().Result}");
                     break;
                 case 5:
                     _logger.WriteLine("Пока.");
                     onOff = false;
                     break;
-
             }
         }
     }
 
-    private void RegisterOrDeleteUsers()
+    private async Task RegisterOrDeleteUsersAsync()
     {
         _logger.WriteLine("1 - Добавить пользователя 2 - Убрать пользователя");
         var choose = Convert.ToInt32(Console.ReadLine());
@@ -72,10 +71,10 @@ internal class MainMenu
         switch (choose)
         {
             case 1:
-                AddUser();
+                await AddUserAsync();
                 break;
             case 2:
-                DeleteUser();
+                await DeleteUserAsync();
                 break;
         }
     }
@@ -101,11 +100,11 @@ internal class MainMenu
         _logger.WriteLine("Здесь вы можете вести учет потраченных и заработанных средств.");
     }
 
-    private void OperationsWithPersonalAccount()
+    private async Task OperationsWithPersonalAccountAsync()
     {
         _logger.WriteLine($"Вы выбрали операции с личным аккаунтом.");
         _logger.WriteLine("Выберите аккаунт для взаимодействия.");
-        var users = _operator.ReadUsers();
+        var users = await _client.ReadUsersAsync();
         for (int i = 0; i < users.Count; i++)
         {
             var currentUser = users[i];
@@ -113,6 +112,7 @@ internal class MainMenu
         }
         var choose1 = Convert.ToInt32(Console.ReadLine());
 
+        // TODO : Реализовать механику передачи денег между юзерами
         switch (choose1)
         {
             case 1:
@@ -130,28 +130,28 @@ internal class MainMenu
         }
     }
 
-    private void TopUpTotalBalance()
+    private async Task TopUpTotalBalanceAsync()
     {
         _logger.WriteLine("Вы выбрали операцию пополнения общего баланса.");
-        _logger.WriteLine($"Ваш текущий баланс: {_operator.TotalMoney}");
+        _logger.WriteLine($"Ваш текущий баланс: {await _client.GetTotalBalanceAsync()}");
         _logger.WriteLine("Введите сумму для пополнения.");
         var addMoney = Convert.ToInt32(Console.ReadLine());
         _logger.WriteLine("Введите комментариий.");
         var comment = Console.ReadLine();
-        _operator.TopUpTotalBalance(addMoney, comment);
-        _logger.WriteLine($"Ваш текущий баланс: {_operator.TotalMoney}");
+        await _client.TopUpTotalBalanceAsync(addMoney, comment);
+        _logger.WriteLine($"Ваш текущий баланс: {await _client.GetTotalBalanceAsync()}");
     }
 
-    private void RemoveFromTotalBalance()
+    private async Task RemoveFromTotalBalanceAsync()
     {
         _logger.WriteLine("Вы выбрали операцию снятия с общего баланса.");
-        _logger.WriteLine($"Ваше текущий баланс: {_operator.TotalMoney}");
+        _logger.WriteLine($"Ваше текущий баланс: {await _client.GetTotalBalanceAsync()}");
         _logger.WriteLine("Введите сумму для снятия.");
         var takeOffMoney = Convert.ToInt32(Console.ReadLine());
         _logger.WriteLine("Введите комментарий.");
         var comment = Console.ReadLine();
-        _operator.RemoveFromTotalBalance(takeOffMoney, comment);
-        _logger.WriteLine($"Ваше текущий баланс: {_operator.TotalMoney}");
+        await _client.RemoveFromTotalBalanceAsync(takeOffMoney, comment);
+        _logger.WriteLine($"Ваше текущий баланс: {await _client.GetTotalBalanceAsync()}");
     }
 
     private int ChooseOperation()
@@ -165,7 +165,7 @@ internal class MainMenu
         return Convert.ToInt32(Console.ReadLine());
     }
 
-    private void AddUser()
+    private async Task AddUserAsync()
     {
 
         _logger.WriteLine("Введите имя нового аккаунта");
@@ -185,18 +185,20 @@ internal class MainMenu
 
         var newUser = new User(chooseName, chooseMoney);
 
-        _operator.SaveUser(newUser);
+        await _client.SaveAsync(newUser);
     }
 
-    private void DeleteUser()
+    private async Task DeleteUserAsync()
     {
         _logger.WriteLine("Выберите юзера для удаления.");
-        var users = _operator.ReadUsers();
+        var users = await _client.ReadUsersAsync();
         for (int i = 0; i < users.Count; i++)
         {
             _logger.WriteLine($"{i + 1} - {users[i]}");
         }
         var choose = Convert.ToInt32(Console.ReadLine());
+        var user = users[choose - 1];
+        await _client.DeleteAsync(user.Uid);
         users.RemoveAt(choose - 1);
         for (int i = 0; i < users.Count; i++)
         {

@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using MiniAccounting.Infrastructure.DataKeepers;
-using MiniAccounting.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 

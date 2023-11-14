@@ -43,7 +43,7 @@
                 throw new ArgumentException($"Юзер с uid '{userUid}' не найден.");
 
             return userToReturn;
-        }
+        }   
 
         public List<User> ReadUsers()
         {

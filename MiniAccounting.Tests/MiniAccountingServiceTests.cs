@@ -83,4 +83,9 @@ public class MiniAccountingServiceTests
         Assert.AreEqual(expectedResult, result, $"Значения результата не совпадает, ожидается {expectedResult}, получено {result}");
         Assert.AreEqual(expectedResult, after, $"Значения результата не совпадает, ожидается {expectedResult}, получено {after}");
     }
+    [TestMethod]
+    //public async Task AddUserTest()
+    //{
+
+    //}
 }

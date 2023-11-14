@@ -6,15 +6,16 @@ namespace MiniAccounting.Infrastructure
     {
         public DbSet<User> Users { get; set; }
         public DbSet<TransactionInfo> Transactions { get; set; }
-        
+
         public MiniAccountingContext(DbContextOptions<MiniAccountingContext> options) : base(options)
         {
-            Database.EnsureDeleted();
+            //Database.EnsureDeleted();
             Database.EnsureCreated();
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().HasData(new User("Manrikez", 100));
+            modelBuilder.Entity<User>().HasData(new User("TotalBalance", 0, Static.TotalBalanceUserUid));
         }
     }
 }

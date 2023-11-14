@@ -88,7 +88,7 @@ public class MiniAccountingClient
 
     public async Task SaveAsync(User user, CancellationToken token = default)
     {
-        var fullAddress = $"{Address}UserController/Save";
+        var fullAddress = $"{Address}User/Save";
         var url = new Uri(fullAddress);
 
         using var request = new HttpRequestMessage(HttpMethod.Post, url);
@@ -99,7 +99,7 @@ public class MiniAccountingClient
 
     public async Task SaveUsersAsync(IEnumerable<User> users, CancellationToken token = default)
     {
-        var fullAddress = $"{Address}UserController/SaveUsers";
+        var fullAddress = $"{Address}User/SaveUsers";
         var url = new Uri(fullAddress);
 
         using var request = new HttpRequestMessage(HttpMethod.Post, url);
@@ -110,7 +110,7 @@ public class MiniAccountingClient
 
     public async Task<List<User>> ReadUsersAsync(CancellationToken token = default)
     {
-        var fullAddress = $"{Address}UserController/SaveUsers";
+        var fullAddress = $"{Address}User/ReadUsers";
         var url = new Uri(fullAddress);
 
         using var request = new HttpRequestMessage(HttpMethod.Get, url);
@@ -131,7 +131,7 @@ public class MiniAccountingClient
 
     public async Task<User> ReadAsync(Guid userUid, CancellationToken token = default)
     {
-        var fullAddress = $"{Address}UserController/ReadUsers";
+        var fullAddress = $"{Address}User/ReadUsers";
         var url = new Uri(fullAddress);
 
         using var request = new HttpRequestMessage(HttpMethod.Get, url);
@@ -152,7 +152,7 @@ public class MiniAccountingClient
 
     public async Task EditAsync(User user, CancellationToken token = default)
     {
-        var fullAddress = $"{Address}UserController/Edit";
+        var fullAddress = $"{Address}User/Edit";
         var url = new Uri(fullAddress);
 
         using var request = new HttpRequestMessage(HttpMethod.Get, url);
@@ -162,7 +162,7 @@ public class MiniAccountingClient
 
     public async Task DeleteAsync(Guid userUid, CancellationToken token = default)
     {
-        var fullAddress = $"{Address}UserController/Delete";
+        var fullAddress = $"{Address}User/Delete";
         var @params = new Dictionary<string, string>() { { "userUid", userUid.ToString() } };
         var url = new Uri(QueryHelpers.AddQueryString(fullAddress, @params));
 

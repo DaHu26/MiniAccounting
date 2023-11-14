@@ -5,8 +5,6 @@ namespace MiniAccounting.Infrastructure;
 
 public class Operator
 {
-    public double TotalMoney { get; private set; }
-
     private ILogger _logger;
     private IReadWriteHistoryOfTransactions _readWriteHistoryOfTransactions;
     private IUserKeeper _userKeeper;
@@ -21,19 +19,30 @@ public class Operator
     public double TopUpTotalBalance(double addMoney, string comment)
     {
         _logger.WriteLine($"{nameof(TopUpTotalBalance)}: addmoney={addMoney}, comment={comment}");
-        var operationInfo = new TransactionInfo(Guid.NewGuid(), DateTimeOffset.UtcNow, TypeOfTransaction.TopUp, comment, Guid.Empty, Guid.Empty);
+        var operationInfo = new TransactionInfo(Guid.NewGuid(), DateTimeOffset.UtcNow, TypeOfTransaction.TopUp, comment, Static.TotalBalanceUserUid, Static.TotalBalanceUserUid);
         _readWriteHistoryOfTransactions.WriteTransaction(operationInfo);
 
-        return TotalMoney += addMoney;
+        var totalBalanceUser = _userKeeper.ReadUser(Static.TotalBalanceUserUid);
+        totalBalanceUser.Money += addMoney;
+        _userKeeper.Edit(totalBalanceUser);
+        return totalBalanceUser.Money;
     }
 
     public double RemoveFromTotalBalance(double removeMoney, string comment)
     {
         _logger.WriteLine($"{nameof(RemoveFromTotalBalance)}: removeMoney={removeMoney}, comment={comment}");
-        var operationInfo = new TransactionInfo(Guid.NewGuid(), DateTimeOffset.UtcNow, TypeOfTransaction.Remove, comment, Guid.Empty, Guid.Empty);
+        var operationInfo = new TransactionInfo(Guid.NewGuid(), DateTimeOffset.UtcNow, TypeOfTransaction.Remove, comment, Static.TotalBalanceUserUid, Static.TotalBalanceUserUid);
         _readWriteHistoryOfTransactions.WriteTransaction(operationInfo);
 
-        return TotalMoney -= removeMoney;
+        var totalBalanceUser = _userKeeper.ReadUser(Static.TotalBalanceUserUid);
+        totalBalanceUser.Money -= removeMoney;
+        _userKeeper.Edit(totalBalanceUser);
+        return totalBalanceUser.Money;
+    }
+    public double GetTotalBalance()
+    {
+        var totalBalanceUser = _userKeeper.ReadUser(Static.TotalBalanceUserUid);
+        return totalBalanceUser.Money;
     }
 
     public void SaveUser(User user)
@@ -73,8 +82,4 @@ public class Operator
         _userKeeper.Delete(userUid);
     }
 
-    public double GetTotalBalance()
-    {
-        return TotalMoney;
-    }
 }
