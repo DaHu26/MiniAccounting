@@ -47,6 +47,9 @@ public class Operator
 
     public void SaveUser(User user)
     {
+        if (string.IsNullOrWhiteSpace(user.Name))
+            throw new ArgumentNullException($"{nameof(user.Name)}");
+
         _logger.WriteLine($"{nameof(SaveUser)} Name:{user.Name} Money:{user.Money}");
         _userKeeper.Save(user);
     }

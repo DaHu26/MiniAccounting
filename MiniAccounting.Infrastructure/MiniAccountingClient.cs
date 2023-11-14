@@ -131,8 +131,9 @@ public class MiniAccountingClient
 
     public async Task<User> ReadAsync(Guid userUid, CancellationToken token = default)
     {
-        var fullAddress = $"{Address}User/ReadUsers";
-        var url = new Uri(fullAddress);
+        var fullAddress = $"{Address}User/Read";
+        var @params = new Dictionary<string, string>() { { "userUid", userUid.ToString() } };
+        var url = new Uri(QueryHelpers.AddQueryString(fullAddress, @params));
 
         using var request = new HttpRequestMessage(HttpMethod.Get, url);
         var content = await SendAsync(request, token).ConfigureAwait(false);
@@ -155,7 +156,7 @@ public class MiniAccountingClient
         var fullAddress = $"{Address}User/Edit";
         var url = new Uri(fullAddress);
 
-        using var request = new HttpRequestMessage(HttpMethod.Get, url);
+        using var request = new HttpRequestMessage(HttpMethod.Put, url);
         request.Content = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
         await SendAsync(request, token).ConfigureAwait(false);
     }
@@ -166,7 +167,7 @@ public class MiniAccountingClient
         var @params = new Dictionary<string, string>() { { "userUid", userUid.ToString() } };
         var url = new Uri(QueryHelpers.AddQueryString(fullAddress, @params));
 
-        using var request = new HttpRequestMessage(HttpMethod.Post, url);
+        using var request = new HttpRequestMessage(HttpMethod.Delete, url);
         await SendAsync(request, token).ConfigureAwait(false);
     }
 }

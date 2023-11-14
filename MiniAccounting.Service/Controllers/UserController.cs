@@ -14,9 +14,13 @@ public class UserController : ControllerBase
     }
 
     [HttpPost]
-    public void Save(User user)
+    public ActionResult Save(User user)
     {
+        if (string.IsNullOrWhiteSpace(user.Name))
+            return StatusCode(400);
+
         _operator.SaveUser(user);
+        return StatusCode(200);
     }
 
     [HttpPost]
